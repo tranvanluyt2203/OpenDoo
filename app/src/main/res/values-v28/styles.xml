@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeText">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ThemeText.Bold" parent="ThemeText">
+        <item name="android:textFontWeight">900</item>
+    </style>
+
+    <style name="Context_big" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/big</item>
+    </style>
+    <style name="Context_H_7.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h_7</item>
+    </style>
+    <style name="Context_H_4" parent="ThemeText">
+        <item name="android:textSize">@dimen/h_4</item>
+    </style>
+
+
+    <style name="Context_H0.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h0</item>
+    </style>
+    <style name="Context_H4.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h4</item>
+    </style>
+    <style name="Context_H5" parent="ThemeText">
+        <item name="android:textSize">@dimen/h5</item>
+    </style>
+    <style name="Context_H5.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h5</item>
+    </style>
+    <style name="Context_H5.Bold.Color" parent="Context_H5.Bold">
+        <item name="android:textColor">#40cbd8</item>
+    </style>
+    <style name="Context_H5.Error" parent="Context_H5">
+        <item name="android:textColor">@color/error</item>
+    </style>
+    <style name="Context_H6.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h6</item>
+    </style>
+    <style name="Context_H7.Bold" parent="ThemeText.Bold">
+        <item name="android:textSize">@dimen/h7</item>
+    </style>
+</resources>

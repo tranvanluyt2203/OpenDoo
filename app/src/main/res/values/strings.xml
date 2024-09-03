@@ -1,4 +1,20 @@
 <resources>
-    <string name="app_name">OpenDoor</string>
+    <string name="app_name">Weather</string>
     <string name="home">Home</string>
+    <string name="todo">TODO</string>
+    <string name="history">History</string>
+    <string name="setting">Setting</string>
+    <string name="login">Login</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="error">Error</string>
+    <string name="video_stream">Video Stream</string>
+    <string name="da_nang">Da Nang</string>
+    <string name="_19">19°C</string>
+    <string name="h">H:</string>
+    <string name="l">L:</string>
+    <string name="hourly">Hourly</string>
+    <string name="weekly">Weekly</string>
+    <string name="_12_am">12 AM</string>
+    <string name="_39">39%</string>
 </resources>

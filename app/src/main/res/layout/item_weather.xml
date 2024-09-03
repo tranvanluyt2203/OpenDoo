@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/item"
+    android:gravity="center"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="20dp"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/view_item_weather_unselect">
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        style="@style/Context_H5.Bold"
+        android:text="@string/_12_am"
+        android:layout_weight="1"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        />
+    <ImageView
+        android:id="@+id/item_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/sun"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/todo"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:id="@+id/item_prob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        style="@style/Context_H5.Bold.Color"
+        android:text="@string/_39"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        />
+    <TextView
+        android:id="@+id/item_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Context_H5.Bold"
+        android:layout_weight="1"
+        android:text="@string/_19" />
+
+
+
+</LinearLayout>
