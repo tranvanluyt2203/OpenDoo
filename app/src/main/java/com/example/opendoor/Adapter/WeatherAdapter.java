@@ -1,5 +1,7 @@
 package com.example.opendoor.Adapter;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     public WeatherAdapter(int itemView, List<Object> data) {
         this.itemView = itemView;
-        this.data  = data;
+        this.data = data;
     }
 
     @NonNull
@@ -31,21 +33,26 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return new WeatherViewHolder(view);
     }
 
-
+    @SuppressLint("DefaultLocale")
     @Override
-    public void onBindViewHolder(@NonNull WeatherAdapter.WeatherViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         String time = ((List<String>) data.get(0)).get(position);
+        double prob = ((List<Double>) data.get(1)).get(position);
+        double temp = ((List<Double>) data.get(2)).get(position);
+        int iconResId = ((List<Integer>) data.get(3)).get(position);
+
+        // Set data into views
         holder.item_time.setText(time);
-        holder.item_prob.setText(((List<String>) data.get(1)).get(position));
-        holder.item_temp.setText(((List<String>) data.get(2)).get(position));
-        holder.item_img.setImageResource(((List<Integer>) data.get(3)).get(position));
-        if (time.contains("Now")|| time.contains("Today")){
+        holder.item_prob.setText(String.format("%.0f%%", prob * 100));
+        holder.item_temp.setText(String.format("%.0f°C", temp));
+        holder.item_img.setImageResource(iconResId);
+
+        if (time.contains("Now") || time.contains("Today")) {
             holder.item.setBackgroundResource(R.drawable.view_item_weather_select);
-        }else {
+        } else {
             holder.item.setBackgroundResource(R.drawable.view_item_weather_unselect);
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -53,7 +60,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     }
 
     public static class WeatherViewHolder extends RecyclerView.ViewHolder {
-        TextView item_time,item_prob,item_temp;
+        TextView item_time, item_prob, item_temp;
         ImageView item_img;
         LinearLayout item;
 

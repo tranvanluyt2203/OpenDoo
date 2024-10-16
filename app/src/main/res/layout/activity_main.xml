@@ -9,6 +9,7 @@
     android:background="@drawable/bg"
 
     tools:context=".Screen.MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,6 +109,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/view_bottom_sheet">
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
             <LinearLayout
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
@@ -187,57 +198,30 @@
 
 
             </ViewAnimator>
-            <ImageButton
-                android:id="@+id/bt_local"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_location"
-                android:contentDescription="@string/todo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="20dp"
 
-                android:scaleType="centerCrop"
-                />
-            <ImageButton
-                android:id="@+id/bt_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_list"
-                android:contentDescription="@string/todo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="20dp"
-                android:scaleType="centerCrop"
-                />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottom_bt"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/bottom_button"
-                app:layout_constraintStart_toStartOf="@id/bt_local"
-                app:layout_constraintEnd_toEndOf="@id/bt_list"
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 >
                 <ImageButton
-                    android:id="@+id/bt_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_local"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/bg_ic"
+
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_add"
-                    android:background="@color/transparent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:scaleType="fitCenter"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
+                    app:layout_constraintTop_toTopOf="parent"
 
                     />
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

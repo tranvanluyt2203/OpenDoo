@@ -67,6 +67,8 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.5.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.google.code.gson:gson:2.10.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
