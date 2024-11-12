@@ -12,7 +12,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +22,14 @@ import android.widget.ViewAnimator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.opendoor.Adapter.WeatherAdapter;
 import com.example.opendoor.Assets.ApiClient;
 import com.example.opendoor.Assets.ClientService;
@@ -49,16 +54,20 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends Activity {
-    private TextView tab_hourly, tab_weekly, locationView;
+    private TextView tab_hourly, tab_weekly, locationView,temp_day,humidity,temp;
+    private ImageView temp_img;
     private RecyclerView view_hourly, view_weekly;
     private ViewAnimator viewAnimator;
-    private ImageButton bt_local;
+    private ImageButton bt_local,reload;
     private final List<Object> dataHourly = new ArrayList<>(Arrays.asList(new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));
     private final List<Object> dataWeekly = new ArrayList<>(Arrays.asList(new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));
     private WeatherAdapter adapterHourly, adapterWeekly;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private ProgressBar progressBar;
+    private ConstraintLayout background;
+    private SwipeRefreshLayout refreshLayout;
+    private LottieAnimationView animationView;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -76,10 +85,24 @@ public class MainActivity extends Activity {
         viewAnimator = findViewById(R.id.animator);
 
         bt_local = findViewById(R.id.bt_local);
+        reload = findViewById(R.id.reload);
 
         progressBar = findViewById(R.id.progressBar);
+        temp_img = findViewById(R.id.img_temp);
+        temp = findViewById(R.id.temp);
+        temp_day = findViewById(R.id.temp_day);
+        humidity = findViewById(R.id.humidity);
+
+        background = findViewById(R.id.background);
+
+        animationView = findViewById(R.id.animation);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        refreshLayout = findViewById(R.id.layout_refresh);
+        refreshLayout.setOnRefreshListener(() -> {
+            CallAPI();
+            refreshLayout.setRefreshing(false);
+        });
 
         bt_local.setOnClickListener(v->{
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -100,6 +123,11 @@ public class MainActivity extends Activity {
 
         view_hourly.setAdapter(adapterHourly);
         view_weekly.setAdapter(adapterWeekly);
+
+        reload.setOnClickListener(v->{
+            progressBar.setVisibility(View.VISIBLE);
+            CallAPI();
+        });
 
         tab_hourly.setOnClickListener(v -> {
             tab_hourly.setTextColor(ContextCompat.getColor(this, R.color.color_select));
@@ -127,29 +155,6 @@ public class MainActivity extends Activity {
     }
     @SuppressLint("NotifyDataSetChanged")
     private void setDataHourly(List<Double> listTemp, List<Double> listRainProb, List<Integer> listIcon){
-//        dataHourly.add(DateTimeUtils.getListTimeInDay());
-//        if (!listTemp.isEmpty()&&!listRainProb.isEmpty()&&!listIcon.isEmpty()){
-//            dataHourly.add(listRainProb);
-//            dataHourly.add(listTemp);
-//            dataHourly.add(listIcon);
-//            adapterHourly.notifyDataSetChanged();
-//        }
-//        else {
-//            dataHourly.add(new ArrayList<>(Arrays.asList(
-//                    "39%","50%","39%","50%","39%","50%","39%","50%","39%","50%","39%","50%",
-//                    "39%","50%","39%","50%","39%","50%","39%","50%","39%","50%","39%","50%"
-//            )));
-//            dataHourly.add(new ArrayList<>(Arrays.asList(
-//                    "19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C",
-//                    "19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C","19°C","20°C"
-//            )));
-//            dataHourly.add(new ArrayList<>(Arrays.asList(
-//                    R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,
-//                    R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,
-//                    R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,
-//                    R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain
-//            )));
-//        }
         dataHourly.clear();
         dataHourly.add(DateTimeUtils.getListTimeInDay());
         dataHourly.add(listRainProb);
@@ -159,24 +164,6 @@ public class MainActivity extends Activity {
     }
     @SuppressLint("NotifyDataSetChanged")
     private void setDataWeekly(List<Double> listTemp, List<Double> listRainProb, List<Integer> listIcon){
-//        dataWeekly.add(DateTimeUtils.getListDateInWeek());
-//        if (!listTemp.isEmpty()&&!listRainProb.isEmpty()&&!listIcon.isEmpty()) {
-//            dataWeekly.add(listRainProb);
-//            dataWeekly.add(listTemp);
-//            dataWeekly.add(listIcon);
-//            adapterWeekly.notifyDataSetChanged();
-//        }
-//        else{
-//            dataWeekly.add(new ArrayList<>(Arrays.asList(
-//                    "39%","50%","39%","50%","39%","50%","39%"
-//            )));
-//            dataWeekly.add(new ArrayList<>(Arrays.asList(
-//                    "19°C","20°C","19°C","20°C","19°C","20°C","19°C"
-//            )));
-//            dataWeekly.add(new ArrayList<>(Arrays.asList(
-//                    R.drawable.sun_big_rain,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun,R.drawable.sun_rain,R.drawable.sun
-//            )));
-//        }
         dataWeekly.clear();
         dataWeekly.add(DateTimeUtils.getListDateInWeek());
         dataWeekly.add(listRainProb);
@@ -187,6 +174,7 @@ public class MainActivity extends Activity {
     }
     private void CallAPI(){
         progressBar.setVisibility(View.VISIBLE);
+        reload.setVisibility(View.INVISIBLE);
 
         String jsonData = "{"
                 + "\"hours_ahead\": 168"
@@ -197,10 +185,12 @@ public class MainActivity extends Activity {
                 Log.d("tag onFailure", "API call failed: " + e);
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
+                    reload.setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this, "API request failed", Toast.LENGTH_SHORT).show();
                 });
             }
 
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -211,9 +201,9 @@ public class MainActivity extends Activity {
 
                     if (apiResponse.isSuccess()) {
                         ApiResponse.Data data = apiResponse.getData();
-                        Log.d("tag temp", "Temperature Forecast: " + data.getTempForecast());
-                        Log.d("tag humidity", "Humidity Forecast: " + data.getHumidityForecast());
-                        Log.d("tag rain prob", "Rain Probability: " + data.getRainProb());
+                        Log.d("tag temp", "Temperature Forecast: " + data.getTempForecast().size());
+                        Log.d("tag humidity", "Humidity Forecast: " + data.getHumidityForecast().size());
+                        Log.d("tag rain prob", "Rain Probability: " + data.getRainProb().size());
 
                         runOnUiThread(() -> {
                             setDataHourly(
@@ -221,14 +211,39 @@ public class MainActivity extends Activity {
                                     data.getRainProb().subList(0, 24),
                                     mapRainProbToIcons(data.getRainProb().subList(0, 24))
                             );
-                            List<Double> dataProb = dataWeek(data.getRainProb());
+                            List<Double> dataProb = dataWeek(data.getRainProb().subList(1,data.getRainProb().size()));
                             setDataWeekly(
-                                    dataWeek(data.getTempForecast()),
+                                    dataWeek(data.getTempForecast().subList(1,data.getTempForecast().size())),
                                     dataProb,
                                     mapRainProbToIcons(dataProb)
                             );
                             // Hide the progress bar after data is loaded
                             progressBar.setVisibility(View.GONE);
+                            temp.setText(String.format("%.0f°C", data.getTempForecast().get(0)));
+                            Double highest = data.getTempForecast().subList(0,24-DateTimeUtils.getTimeNow()).stream().max(Double::compareTo).orElse(0.0);
+                            Double lowest = data.getTempForecast().subList(0,24-DateTimeUtils.getTimeNow()).stream().min(Double::compareTo).orElse(0.0);
+                            temp_day.setText(String.format("%.0f°C - %.0f°C", lowest,highest));
+                            humidity.setText(String.format("Humidity: %.0f%%",data.getHumidityForecast().get(0)));
+                            double prob = data.getRainProb().get(0);
+                            temp_img.setImageResource(
+                                    prob<=0.2?
+                                            R.drawable.sun:
+                                            prob>0.2&&prob<=0.5?
+                                                    R.drawable.sun_rain:
+                                                    R.drawable.sun_big_rain
+                            );
+                            background.setBackgroundResource(
+                                    prob<=0.2?
+                                            R.drawable.bg_light:
+                                            prob>0.2&&prob<=0.5?
+                                                    R.drawable.bg:
+                                                    R.drawable.bg
+                            );
+                            temp_img.setVisibility(View.VISIBLE);
+                            animationView.setAnimation(
+                                    prob<=0.2? "Animation/sun.json":"Animation/rain.json"
+                            );
+                            Log.d("tag", String.valueOf(DateTimeUtils.getTimeNow()));
                         });
                     }
                 } else {
@@ -253,9 +268,9 @@ public class MainActivity extends Activity {
     }
     private List<Integer> mapRainProbToIcons(List<Double> rainProbList) {
         return rainProbList.stream().map(item -> {
-            if (item <= 0.3) {
+            if (item <= 0.2) {
                 return R.drawable.sun;
-            } else if (item > 0.3 && item <= 0.5) {
+            } else if (item > 0.2 && item <= 0.5) {
                 return R.drawable.sun_rain;
             } else {
                 return R.drawable.sun_big_rain;

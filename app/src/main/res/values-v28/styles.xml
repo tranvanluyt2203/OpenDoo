@@ -27,6 +27,9 @@
     <style name="Context_H4.Bold" parent="ThemeText.Bold">
         <item name="android:textSize">@dimen/h4</item>
     </style>
+    <style name="Context_H4" parent="ThemeText">
+        <item name="android:textSize">@dimen/h4</item>
+    </style>
     <style name="Context_H5" parent="ThemeText">
         <item name="android:textSize">@dimen/h5</item>
     </style>

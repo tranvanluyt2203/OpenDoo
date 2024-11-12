@@ -10,11 +10,11 @@
     <string name="error">Error</string>
     <string name="video_stream">Video Stream</string>
     <string name="da_nang">Da Nang</string>
-    <string name="_19">19°C</string>
-    <string name="h">H:</string>
-    <string name="l">L:</string>
+    <string name="_19">_ _</string>
+    <string name="temp_day">_ _ - _ _</string>
     <string name="hourly">Hourly</string>
-    <string name="weekly">Weekly</string>
+    <string name="weekly">Daily</string>
     <string name="_12_am">12 AM</string>
     <string name="_39">39%</string>
+    <string name="_20">Humidity: _ _</string>
 </resources>

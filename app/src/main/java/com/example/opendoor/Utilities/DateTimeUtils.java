@@ -32,4 +32,8 @@ public class DateTimeUtils {
         }
         return results;
     }
+    public static int getTimeNow(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
 }
